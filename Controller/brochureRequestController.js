@@ -33,3 +33,20 @@ exports.getBrochureRequests = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+exports.deleteBrochureRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await BrochureRequest.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'Brochure request not found' });
+    }
+
+    res.status(200).json({ message: 'Brochure request deleted successfully', data: deleted });
+  } catch (error) {
+    console.error('Error deleting brochure request:', error);
+    res.status(500).json({ message: error.message });
+  }
+};
